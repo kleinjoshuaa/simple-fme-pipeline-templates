@@ -74,7 +74,7 @@ pipeline:
                             value: <+pipeline.variables.SplitEnvironment>
                           - name: on_variant
                             type: String
-                            value: <+pipeline.variables.on_treatment>
+                            value: <+pipeline.variables.off_treatment>
                           - name: segmentName
                             type: String
                             value: <+pipeline.variables.UserSegments>
