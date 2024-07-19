@@ -1,0 +1,137 @@
+---
+pipeline:
+  projectIdentifier: "default_project"
+  orgIdentifier: "default"
+  tags: {}
+  stages:
+  - stage:
+      name: "Toggle-Flag-On-Off"
+      identifier: "ToggleFlagOnOff"
+      description: ""
+      type: "Custom"
+      spec:
+        execution:
+          steps:
+          - step:
+              name: "Turn-Flag-On"
+              identifier: "TurnFlagOn"
+              template:
+                templateRef: "account.UpdateBooleanDef"
+                versionLabel: "Version1"
+                gitBranch: "main"
+                templateInputs:
+                  type: "Http"
+                  spec:
+                    inputVariables:
+                    - name: "workspace"
+                      type: "String"
+                      value: "<+pipeline.variables.SplitWorkspace>"
+                    - name: "flagName"
+                      type: "String"
+                      value: "<+pipeline.variables.FlagName>"
+                    - name: "environment"
+                      type: "String"
+                      value: "<+pipeline.variables.SplitEnvironment>"
+                    - name: "on_variant"
+                      type: "String"
+                      value: "<+pipeline.variables.on_treatment>"
+                    - name: "off_variant"
+                      type: "String"
+                      value: "<+pipeline.variables.off_treatment>"
+                    - name: "on_pct"
+                      type: "String"
+                      value: "<+pipeline.variables.on_percentage>"
+                    - name: "off_pct"
+                      type: "String"
+                      value: "<+pipeline.variables.off_percentage>"
+          - step:
+              type: "HarnessApproval"
+              name: "HarnessApproval_1"
+              identifier: "HarnessApproval_1"
+              spec:
+                approvalMessage: "Approve to turn off"
+                includePipelineExecutionHistory: true
+                isAutoRejectEnabled: false
+                approvers:
+                  userGroups:
+                  - "account._account_all_users"
+                  minimumCount: 1
+                  disallowPipelineExecutor: false
+                approverInputs: []
+              timeout: "1d"
+          - step:
+              name: "Turn-Flag-Off"
+              identifier: "TurnFlagOff"
+              template:
+                templateRef: "account.UpdateBooleanDef"
+                versionLabel: "Version1"
+                gitBranch: "main"
+                templateInputs:
+                  type: "Http"
+                  spec:
+                    inputVariables:
+                    - name: "workspace"
+                      type: "String"
+                      value: "<+pipeline.variables.SplitWorkspace>"
+                    - name: "flagName"
+                      type: "String"
+                      value: "<+pipeline.variables.FlagName>"
+                    - name: "environment"
+                      type: "String"
+                      value: "<+pipeline.variables.SplitEnvironment>"
+                    - name: "on_variant"
+                      type: "String"
+                      value: "<+pipeline.variables.on_treatment>"
+                    - name: "off_variant"
+                      type: "String"
+                      value: "<+pipeline.variables.off_treatment>"
+                    - name: "on_pct"
+                      type: "String"
+                      value: "<+pipeline.variables.off_percentage>"
+                    - name: "off_pct"
+                      type: "String"
+                      value: "<+pipeline.variables.on_percentage>"
+      tags: {}
+  variables:
+  - name: "FlagName"
+    type: "String"
+    description: ""
+    required: true
+    value: "<+input>.allowedValues(boxes_richard,boxes_josh)"
+  - name: "SplitWorkspace"
+    type: "String"
+    description: ""
+    required: true
+    value: "4baf0690-6d25-11e9-8497-12a5cc2af8fe"
+  - name: "SplitEnvironment"
+    type: "String"
+    description: ""
+    required: true
+    value: "4bc2b5a0-6d25-11e9-8497-12a5cc2af8fe"
+  - name: "on_percentage"
+    type: "Number"
+    description: ""
+    required: true
+    value: 100
+  - name: "off_percentage"
+    type: "Number"
+    description: ""
+    required: false
+    value: 0
+  - name: "on_treatment"
+    type: "String"
+    description: ""
+    required: true
+    value: "standard"
+  - name: "off_treatment"
+    type: "String"
+    description: ""
+    required: true
+    value: "current"
+  - name: "splitApiKey"
+    type: "Secret"
+    description: ""
+    required: true
+    value: "splitApiKey"
+  identifier: "Toggle_Flag_On_or_Off_User_Segment"
+  name: "Toggle Flag On or Off - User Segment"
