@@ -88,10 +88,10 @@ pipeline:
                             value: <+pipeline.variables.off_treatment>
                           - name: on_pct
                             type: String
-                            value: <+pipeline.variables.on_percentage>
+                            value: <+pipeline.variables.off_percentage>
                           - name: off_pct
                             type: String
-                            value: <+pipeline.variables.off_percentage>
+                            value: <+pipeline.variables.on_percentage>
         tags: {}
   variables:
     - name: FlagName
