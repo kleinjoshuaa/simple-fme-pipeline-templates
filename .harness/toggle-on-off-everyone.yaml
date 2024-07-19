@@ -38,7 +38,7 @@ pipeline:
                             value: <+pipeline.variables.on_treatment>
                           - name: off_variant
                             type: String
-                            value: <+pipeline.variables.on_treatment>
+                            value: <+pipeline.variables.off_treatment>
                           - name: on_pct
                             type: String
                             value: <+pipeline.variables.on_percentage>
