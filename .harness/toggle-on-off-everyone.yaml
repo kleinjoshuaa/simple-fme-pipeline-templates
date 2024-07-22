@@ -42,7 +42,7 @@ pipeline:
                       - name: response
                         value: <+httpResponseBody>
                         type: String
-                    assertion: ""
+                    assertion: <+httpResponseCode> == 200 && <+json.select("defaultRule[.treatment ==  '<+spec.inputVariables.treatment>'].size",<+httpresponseBody>)> == 100
                   timeout: 10s
               - step:
                   name: Turn-Flag-On
