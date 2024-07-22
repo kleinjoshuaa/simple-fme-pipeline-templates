@@ -14,36 +14,28 @@ pipeline:
           execution:
             steps:
               - step:
-                  type: Http
                   name: GetIsFlag100PctInEnvironment
                   identifier: GetIsFlag100PctInEnvironment
-                  spec:
-                    url: https://api.split.io/internal/api/v2/splits/ws/<+spec.inputVariables.workspace>/<+spec.inputVariables.flagName>/environments/<+spec.inputVariables.nonProdEnvironment>
-                    method: GET
-                    headers:
-                      - key: Authorization
-                        value: Bearer <+secrets.getValue("splitApiKey")>
-                      - key: Content-Type
-                        value: application/json
-                    inputVariables:
-                      - name: workspace
-                        value: <+pipeline.variables.SplitWorkspace>
-                        type: String
-                      - name: nonProdEnvironment
-                        value: <+pipeline.variables.nonProdEnvironment>
-                        type: String
-                      - name: flagName
-                        value: <+pipeline.variables.FlagName>
-                        type: String
-                      - name: treatment
-                        value: <+pipeline.variables.on_treatment>
-                        type: String
-                    outputVariables:
-                      - name: response
-                        value: <+httpResponseBody>
-                        type: String
-                    assertion: <+httpResponseCode> == 200 && <+json.select("$.defaultRule[?(@.treatment == '<+spec.inputVariables.treatment>')].size",httpResponseBody)> == 100
-                  timeout: 10s
+                  template:
+                    templateRef: account.GetIs100Pct
+                    versionLabel: Version3
+                    gitBranch: main
+                    templateInputs:
+                      type: Http
+                      spec:
+                        inputVariables:
+                          - name: workspace
+                            type: String
+                            value: <+pipeline.variables.SplitWorkspace>
+                          - name: nonProdEnvironment
+                            type: String
+                            value: <+pipeline.variables.nonProdEnvironment>
+                          - name: flagName
+                            type: String
+                            value: <+pipeline.variables.FlagName>
+                          - name: treatment
+                            type: String
+                            value: <+pipeline.variables.on_treatment>
               - step:
                   name: Turn-Flag-On
                   identifier: TurnFlagOn
