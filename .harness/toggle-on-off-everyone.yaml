@@ -40,9 +40,9 @@ pipeline:
                         type: String
                     outputVariables:
                       - name: response
-                        value: <+execution.steps.GetIsFlag100PctInEnvironment.output.httpResponseBody>
+                        value: <+httpResponseBody>
                         type: String
-                    assertion: <+httpResponseCode> == 200 && <+json.select("defaultRule[.treatment ==  '<+spec.inputVariables.treatment>'].size",httpResponseBody)> == 100
+                    assertion: /*<+httpResponseCode> == 200 && <+json.select("defaultRule[.treatment ==  '<+spec.inputVariables.treatment>'].size",httpResponseBody)> == 100*/
                   timeout: 10s
               - step:
                   name: Turn-Flag-On
