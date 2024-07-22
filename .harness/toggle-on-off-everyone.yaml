@@ -14,6 +14,34 @@ pipeline:
           execution:
             steps:
               - step:
+                  type: Http
+                  name: GetIsFlag100PctInEnvironment
+                  identifier: GetIsFlag100PctInEnvironment
+                  spec:
+                    url: https://api.split.io/internal/api/v2/splits/ws/<+spec.inputVariables.workspace>/<+spec.inputVariables.flagName>/environments/<+spec.inputVariables.environment>
+                    method: GET
+                    headers:
+                      - key: Authorization
+                        value: Bearer <+secrets.getValue("splitApiKey")>
+                      - key: Content-Type
+                        value: application/json
+                    inputVariables:
+                      - name: workspace
+                        value: <+input>
+                        type: String
+                      - name: nonProdEnvironment
+                        value: <+input>
+                        type: String
+                      - name: flagName
+                        value: <+input>
+                        type: String
+                      - name: treatment
+                        value: <+input>
+                        type: String
+                    outputVariables: []
+                    assertion: "<+json.select(\"defaultRule[0].treatment\",httpResponseBody)> == <+spec.inputVariables.treatment> &&\_<+json.select(\"defaultRule[0].size\",httpResponseBody)> == 100"
+                  timeout: 10s
+              - step:
                   name: Turn-Flag-On
                   identifier: TurnFlagOn
                   template:
