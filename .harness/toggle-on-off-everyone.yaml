@@ -121,6 +121,8 @@ pipeline:
                             type: String
                             value: <+pipeline.variables.on_percentage>
         tags: {}
+        delegateSelectors:
+          - kubernetes-delegate
   variables:
     - name: FlagName
       type: String
