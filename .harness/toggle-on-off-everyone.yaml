@@ -18,7 +18,7 @@ pipeline:
                   name: GetIsFlag100PctInEnvironment
                   identifier: GetIsFlag100PctInEnvironment
                   spec:
-                    url: https://api.split.io/internal/api/v2/splits/ws/<+spec.inputVariables.workspace>/<+spec.inputVariables.flagName>/environments/<+execution.steps.GetIsFlag100PctInEnvironment.spec.inputVariables.nonProdEnvironment>
+                    url: https://api.split.io/internal/api/v2/splits/ws/<+spec.inputVariables.workspace>/<+spec.inputVariables.flagName>/environments/<+spec.inputVariables.nonProdEnvironment>
                     method: GET
                     headers:
                       - key: Authorization
