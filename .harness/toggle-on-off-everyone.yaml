@@ -38,7 +38,10 @@ pipeline:
                       - name: treatment
                         value: <+pipeline.variables.on_treatment>
                         type: String
-                    outputVariables: []
+                    outputVariables:
+                      - name: response
+                        value: <+httpResponseBody>
+                        type: String
                     assertion: <+httpResponseCode> == 200 && <+json.select("defaultRule[.treatment ==  '<+spec.inputVariables.treatment>'].size",httpResponseBody)> == 100
                   timeout: 10s
               - step:
