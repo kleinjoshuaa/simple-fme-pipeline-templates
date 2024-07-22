@@ -39,7 +39,7 @@ pipeline:
                         value: <+pipeline.variables.on_treatment>
                         type: String
                     outputVariables: []
-                    assertion: <+json.select("defaultRule[.treatment ==  '<+spec.inputVariables.treatment>'].size",httpResponseBody)> == 100
+                    assertion: <+httpResponseCode> == 200 && <+json.select("defaultRule[.treatment ==  '<+spec.inputVariables.treatment>'].size",httpResponseBody)> == 100
                   timeout: 10s
               - step:
                   name: Turn-Flag-On
