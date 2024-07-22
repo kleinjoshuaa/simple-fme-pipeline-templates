@@ -27,19 +27,19 @@ pipeline:
                         value: application/json
                     inputVariables:
                       - name: workspace
-                        value: <+input>
+                        value: <+pipeline.variables.SplitWorkspace>
                         type: String
                       - name: nonProdEnvironment
-                        value: <+input>
+                        value: <+pipeline.variables.nonProdEnvironment>
                         type: String
                       - name: flagName
-                        value: <+input>
+                        value: <+pipeline.variables.FlagName>
                         type: String
                       - name: treatment
-                        value: <+input>
+                        value: <+pipeline.variables.on_treatment>
                         type: String
                     outputVariables: []
-                    assertion: "<+json.select(\"defaultRule[0].treatment\",httpResponseBody)> == <+spec.inputVariables.treatment> &&\_<+json.select(\"defaultRule[0].size\",httpResponseBody)> == 100"
+                    assertion: <+json.select("defaultRule[.treatment =  '<+spec.inputVariables.treatment>'].size",httpResponseBody)> == 100
                   timeout: 10s
               - step:
                   name: Turn-Flag-On
@@ -162,3 +162,8 @@ pipeline:
       description: ""
       required: true
       value: splitApiKey
+    - name: nonProdEnvironment
+      type: String
+      description: ""
+      required: true
+      value: 4bb12970-6d25-11e9-8497-12a5cc2af8fe
