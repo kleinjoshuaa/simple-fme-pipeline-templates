@@ -1,0 +1,32 @@
+template:
+  name: GetIs100Pct
+  type: Step
+  spec:
+    type: Http
+    spec:
+      url: https://api.split.io/internal/api/v2/splits/ws/<+spec.inputVariables.workspace>/<+spec.inputVariables.flagName>/environments/<+spec.inputVariables.environment>
+      method: GET
+      headers:
+        - key: Authorization
+          value: Bearer <+secrets.getValue("splitApiKey")>
+        - key: Content-Type
+          value: application/json
+      inputVariables:
+        - name: workspace
+          value: <+input>
+          type: String
+        - name: nonProdEnvironment
+          value: <+input>
+          type: String
+        - name: flagName
+          value: <+input>
+          type: String
+        - name: treatment
+          value: <+input>
+          type: String
+      outputVariables: []
+      assertion: "<+json.select(\"defaultRule[0].treatment\",httpResponseBody)> == <+spec.inputVariables.treatment> &&\_<+json.select(\"defaultRule[0].size\",httpResponseBody)> == 100"
+    timeout: 10s
+  icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEfklEQVRYw92XW2xUVRSGv33OmXOf6cVSoVIVEEFBUAMJISSiPuiDWBQMkSgSidRUAS8Yn0zFF6M0SEtECokh4BVSk0obkRDFYAQJtZkWiLFR0YKWWNuhZaZlbssHBgJxGtrOBBP3y3lZ//7/s9ZeN/iPj8rXRUKbDkwFxilm7B8uTssDsRLC44CXgT3AYyPBGzmS+8ACYDUwG9BHeocxSuIAMAd4HngIlDvanzBGRhzWgMlAJfAkUJJrCI3hEbcrkBJgKUhVRkSWByyDwOm8ChDaXEjfD+olYB6obJgUSBtQB3yWlzQUwgaouzIPbCHgD2HZCWwHtoE6pZghOXlAaFPABGA5sAIoywaMBBI0l3Un9o0/+0lrWWpD++7HI3kpREJ4LrAF1LRsdeK8lubgmF5qp3bydXmU8649II63Vzy/Fsc9lH5tfjxHAW0rgfosrk53+LFE3dRO69OJPfSGDMR2wHIvfB23W1zvQ3H997DdDpaXp/NYCaULqNlw2+9P1E/raeq5zh2QYCEEC5FQIYQKkWBBCV5wNY73Oa63hoa+Uhr6VE5ZMECSw6pHvtMiBzpIbelvNU+mZ3v7cL1HxQ1W4bh3i+3o2C5iOWA7ioB5K0q9DVQAm2jo28uiUHREIUiSrj+h+mjUujiqziFYKVO8sCXBWptg4/bXo31i2mW43gpc/2mx3ZswTdB0UFdcGQX2IFILHGVxQfKqAlrUNyuOqN5tX2m9KoaBKQ4BXExxMXEHLfH32QRrTfG/fev9syls5w5M6wWUVgEUDvGjXcAOhDoWh64oVP9qHhFjbne7GtTBm2RLyLMIYksImxC2hAyL4BRLvAUW3rj7Got/vbfBO3FgSfwLUD8ApcD4LKH1gbkoTrDrzdarFqIKfVfAwp9nib/Kwn/AFNc1M14I4GBgoaEJqJ8zGfMBcKa6ob8IWAJUAbdfeuRyia2SRaGtwx5IntFafUv8hy0JrrbwZhnYuoaeAV2CJoHvgU1Ac/XuvijR2C0q0l8nRaEH8ZzLbStZPAIBAK/QrUycsQHsZQq1EtSEIXAxoClcfvqjxumH5qlEdJkUuaUyczLpSTdCIDA6ARfPOkQDpgFrgEeA4mx2LRP+iDfPPBYgEVMqEQOJI+NLSN85BRlTXMnSkq2jmgeqUWmgfR3yHLAbeBGYD1iXhxnDMsUpAsMCw4ZEDNUZSelnDrenJ449ns51IqpGnQe+rCqRlr+LWFcc4dnSbjR1UYFuIU4RyrAQwwbdPIXSd6j4uXr92G+dOQtgrSjg5s3wFFBR0I82Kwwzj0OoH8S4IADdOosWaFRK24TSWpPNC1O5j+VrpTgzG6wBpl9MMyUw9i+Y0wIDtsT33pM8SDy6kfi5/WwtH8zPXmAVwKrIG8CrgJnFIh1I8uMNf7L5ZDkfk6SXjUpyakZX9s0AwPVDkHcBOxMG9Sdv5BfWq2FPRTntBZlm0wTUoTjCepW8JnsBkAAOA+8CTdSo6DXZCzLp/lOm/u8EuqlRkosLhy8gOQjQALwDdFCj0vwfzj+YQIG/2/eaVgAAAABJRU5ErkJggg==
+  identifier: GetIs100Pct
+  versionLabel: Version1
